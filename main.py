@@ -564,7 +564,12 @@ async def calendar_keyboard(callback_query: types.CallbackQuery, state: FSMConte
             await callback_query.message.delete()
             await ProfileStatesGroup.menu.set()
 
+async def on_startup(dispatcher):
+    await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
+
+async def on_shutdown(dispatcher):
+    await bot.delete_webhook()
 
 if __name__ == '__main__':
     #executor.start_polling(dp,
