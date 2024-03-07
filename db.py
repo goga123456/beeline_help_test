@@ -12,7 +12,8 @@ class Database:
         return await asyncpg.connect(dsn=self.db_url)
     
 
-    async def zayavka(self, response_date, surname, name, number, birthday, address, education, rus, uzb, eng, exp):
+    async def zayavka(self, response_date, surname, name, number, birthday_str, address, education, rus, uzb, eng, exp):
+        birthday = datetime.strptime(birthday_str, '%d.%m.%Y')
         conn = await self.connect()
         try:
             await conn.execute(
@@ -21,7 +22,8 @@ class Database:
         finally:
             await conn.close()
 
-    async def less18(self, response_date, surname, name, number, birthday):
+    async def less18(self, response_date, surname, name, number, birthday_str):
+        birthday = datetime.strptime(birthday_str, '%d.%m.%Y')
         conn = await self.connect()
         try:
             await conn.execute(
