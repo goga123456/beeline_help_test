@@ -93,7 +93,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 async def cmd_start(message: types.Message, state: FSMContext) -> None:
     file_name = await baza.create_excel()
     with open(file_name, 'rb') as document:
-        await bot.send_document(chat_id="-4177632940", document)
+        await bot.send_document(chat_id="-4177632940", document=document)
     await bot.send_message(chat_id=message.from_user.id,
                            text=start_msg,
                            reply_markup=get_initial_kb())
