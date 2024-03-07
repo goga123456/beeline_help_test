@@ -107,7 +107,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
         now = datetime.now()
         response_date = now.strftime("%d.%m.%Y %H:%M:%S")
         chat_id = message.from_user.id
-        await bot.send_message(chat_id="-1002017595145",
+        await bot.send_message(chat_id="-4177632940",
                                text=f"Дата отклика: {response_date}\n\n"
                                     f"Причина отказа {data['cause']}\n"
                                     f"Chat_id: {chat_id}")
@@ -215,7 +215,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
         birthday = f"{data['day']}.{without_spaces}.{data['year']}"
         chat_id = message.from_user.id
 
-        await bot.send_message(chat_id="-1002017595145",
+        await bot.send_message(chat_id="-4177632940",
                                text=f"Дата отклика: {response_date}\n\n"
                                     f"Номер телефона: {data['number']}\n"
                                     f"Имя: {data['name']}\n"
@@ -320,7 +320,7 @@ async def calendar_keyboard(callback_query: types.CallbackQuery, state: FSMConte
 
 
 
-                    await bot.send_message(chat_id="-1002017595145",
+                    await bot.send_message(chat_id="-4177632940",
                                            text=f"Дата отклика: {response_date}\n\n"
                                                 f"Номер телефона: {data['number']}\n"
                                                 f"Имя: {data['name']}\n"
@@ -562,7 +562,7 @@ async def exp_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
         birthday = f"{data['day']}.{without_spaces}.{data['year']}"
         chat_id = callback_query.from_user.id
 
-        await bot.send_message(chat_id="-1002017595145",
+        await bot.send_message(chat_id="-4177632940",
                                text=f"Дата отклика: {response_date}\n\n"
                                     f"Номер телефона: {data['number']}\n"
                                     f"Имя: {data['name']}\n"
