@@ -5,10 +5,8 @@ import os
 import re
 from datetime import datetime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from sender import *
 from aiogram.utils.executor import start_webhook
 from aiogram import types, executor, Bot, Dispatcher
-#from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 import schedule
@@ -19,9 +17,6 @@ from markups.markup_kalendar import get_birthday_kb, get_birthday_month_kb, get_
 from markups.reply_markups_start_and_back import get_start_kb, get_start_and_back_kb
 from messages import *
 from states import ProfileStatesGroup, AdminStatesGroup
-from google.oauth2.service_account import Credentials
-from googleapiclient.discovery import build
-from config import TOKEN_API
 from aiogram.utils.exceptions import ChatNotFound
 import aiohttp
 from db import Database
