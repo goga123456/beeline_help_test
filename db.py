@@ -1,5 +1,8 @@
+from datetime import datetime
 import asyncpg
 import os
+from aiogram import Bot
+from openpyxl.workbook import Workbook
 
 class Database:
     def __init__(self):
@@ -35,3 +38,30 @@ class Database:
                 response_date, cause)
         finally:
             await conn.close()
+
+
+    async def fetch_data(self, table_name):
+        conn = await self.connect()
+        query = f"SELECT * FROM {table_name};"
+        return await conn.fetch(query)
+
+    async def create_excel(self):
+        workbook = Workbook()
+
+        # Заголовки для каждой таблицы
+        headers = {
+            "zayavki": ["Header1", "Header2", "Header3"],  # Замените заголовки на реальные
+            "less18": ["Header4", "Header5", "Header6"],
+            "rejects": ["Дата отклика", "Причина отказа"]
+        }
+
+        for table_name, header_row in headers.items():
+            sheet = workbook.create_sheet(title=table_name)
+            sheet.append(header_row)
+            data = await self.fetch_data(table_name)
+            for row in data:
+                sheet.append(row)
+
+        file_name = f"data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
+        workbook.save(file_name)
+        return file_name
