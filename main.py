@@ -105,13 +105,13 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
         data['cause'] = message.text
 
         now = datetime.now()
-        response_date = now.strftime("%d.%m.%Y %H:%M:%S")
+        №response_date = now.strftime("%d.%m.%Y %H:%M:%S")
         chat_id = message.from_user.id
         await bot.send_message(chat_id="-4177632940",
                                text=f"Дата отклика: {response_date}\n\n"
                                     f"Причина отказа {data['cause']}\n"
                                     f"Chat_id: {chat_id}")
-        await baza.reject(response_date, data['cause'])
+        await baza.reject(now, data['cause'])
     await bot.send_message(chat_id=message.from_user.id,
                            text=again)
     await state.finish()
@@ -228,7 +228,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
                                     f"Уровень английского: {data['eng']}\n"
                                     f"Опыт работы: {data['exp']}\n"
                                     f"Chat_id: {chat_id}")
-        await baza.zayavka(response_date, data['surname'], data['name'], data['number'], birthday, data['town_and_district'], data['edu'], data['rus'], data['uzb'], data['eng'], data['exp'])
+        await baza.zayavka(now, data['surname'], data['name'], data['number'], birthday, data['town_and_district'], data['edu'], data['rus'], data['uzb'], data['eng'], data['exp'])
         await state.finish()
 
 @dp.callback_query_handler()
@@ -327,7 +327,7 @@ async def calendar_keyboard(callback_query: types.CallbackQuery, state: FSMConte
                                                 f"Фамилия: {data['surname']}\n"
                                                 f"Дата рождения: {birthday}\n"
                                                 f"Chat_id: {chat_id}")
-                    await baza.less18(response_date, data['number'], data['name'], data['surname'], birthday)
+                    await baza.less18(now, data['number'], data['name'], data['surname'], birthday)
                     ###Добавление в базу данных
 
                     await callback_query.message.delete()
@@ -575,7 +575,7 @@ async def exp_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
                                     f"Уровень английского: {data['eng']}\n"
                                     f"Опыт работы: {data['exp']}\n"
                                     f"Chat_id: {chat_id}")
-        await baza.zayavka(response_date, data['surname'], data['name'], data['number'], birthday, data['town_and_district'], data['edu'], data['rus'], data['uzb'], data['eng'], data['exp'])
+        await baza.zayavka(now, data['surname'], data['name'], data['number'], birthday, data['town_and_district'], data['edu'], data['rus'], data['uzb'], data['eng'], data['exp'])
         await state.finish()
     if callback_query.data == 'back_to_eng':
         await callback_query.message.delete()
