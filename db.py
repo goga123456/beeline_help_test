@@ -46,24 +46,24 @@ class Database:
         return await conn.fetch(query)
 
    async def create_excel(self):
-    workbook = Workbook()
+       workbook = Workbook()
 
     # Заголовки для каждой таблицы
-    headers = {
-        "zayavki": ["Header1", "Header2", "Header3"],  # Замените заголовки на реальные
-        "less18": ["Header4", "Header5", "Header6"],
-        "rejects": ["Дата отклика", "Причина отказа"]
-    }
+       headers = {
+            "zayavki": ["Header1", "Header2", "Header3"],  # Замените заголовки на реальные
+            "less18": ["Header4", "Header5", "Header6"],
+            "rejects": ["Дата отклика", "Причина отказа"]
+        }
 
-    for table_name, header_row in headers.items():
-        sheet = workbook.create_sheet(title=table_name)
-        sheet.append(header_row)
-        data = await self.fetch_data(table_name)
-        for row in data:
-            # Преобразуйте asyncpg.Record в список значений
-            row_values = list(row.values())
-            sheet.append(row_values)
+       for table_name, header_row in headers.items():
+           sheet = workbook.create_sheet(title=table_name)
+           sheet.append(header_row)
+           data = await self.fetch_data(table_name)
+           for row in data:
+               # Преобразуйте asyncpg.Record в список значений
+               row_values = list(row.values())
+               sheet.append(row_values)
 
-    file_name = f"data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
-    workbook.save(file_name)
-    return file_name
+       file_name = f"data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
+       workbook.save(file_name)
+       return file_name
