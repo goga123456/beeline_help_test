@@ -105,7 +105,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
         data['cause'] = message.text
 
         now = datetime.now()
-        #response_date = now.strftime("%d.%m.%Y %H:%M:%S")
+        response_date = now.strftime("%d.%m.%Y %H:%M:%S")
         chat_id = message.from_user.id
         await bot.send_message(chat_id="-4177632940",
                                text=f"Дата отклика: {response_date}\n\n"
@@ -210,7 +210,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
                                text=again,
                                reply_markup=get_start_kb())
         now = datetime.now()
-        #response_date = now.strftime("%d.%m.%Y %H:%M:%S")
+        response_date = now.strftime("%d.%m.%Y %H:%M:%S")
         without_spaces = str(data['month']).replace(" ", "")
         birthday = f"{data['day']}.{without_spaces}.{data['year']}"
         chat_id = message.from_user.id
@@ -311,7 +311,7 @@ async def calendar_keyboard(callback_query: types.CallbackQuery, state: FSMConte
             else:
                 without_spaces = str(data['month']).replace(" ", "")
                 now = datetime.now()
-                #response_date = now.strftime("%d.%m.%Y %H:%M:%S")
+                response_date = now.strftime("%d.%m.%Y %H:%M:%S")
                 birthday = f"{data['day']}.{without_spaces}.{data['year']}"
                 chat_id = callback_query.from_user.id
                 if now.year - int(data['year']) < 18:
@@ -557,7 +557,7 @@ async def exp_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
                                text=again,
                                reply_markup=get_start_kb())
         now = datetime.now()
-        #response_date = now.strftime("%d.%m.%Y %H:%M:%S")
+        response_date = now.strftime("%d.%m.%Y %H:%M:%S")
         without_spaces = str(data['month']).replace(" ", "")
         birthday = f"{data['day']}.{without_spaces}.{data['year']}"
         chat_id = callback_query.from_user.id
