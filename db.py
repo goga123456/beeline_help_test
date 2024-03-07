@@ -13,7 +13,7 @@ class Database:
         conn = await self.connect()
         try:
             await conn.execute(
-                'INSERT INTO zayavki (response_date, surname, name, number, birthday, address, education, rus, uzb, eng, exp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);',
+                'INSERT INTO zayavki (response_date, surname, name, number, birthday, address, education, rus, uzb, eng, exp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);',
                 response_date, surname, name, number, birthday, address, education, rus, uzb, eng, exp)
         finally:
             await conn.close()
@@ -31,7 +31,7 @@ class Database:
         conn = await self.connect()
         try:
             await conn.execute(
-                'INSERT INTO rejects (response_date, cause) VALUES ($1, $2, $3, $4, $5, $6);',
+                'INSERT INTO rejects (response_date, cause) VALUES ($1, $2);',
                 response_date, cause)
         finally:
             await conn.close()
