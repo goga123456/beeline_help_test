@@ -20,6 +20,7 @@ from states import ProfileStatesGroup, AdminStatesGroup
 from aiogram.utils.exceptions import ChatNotFound
 import aiohttp
 from db import Database
+from aiogram.utils.exceptions import MessageCantBeDeleted
 
 storage = MemoryStorage()
 TOKEN = os.getenv('BOT_TOKEN')
