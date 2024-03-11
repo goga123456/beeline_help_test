@@ -40,6 +40,10 @@ WEBAPP_PORT = os.getenv('PORT', default=8000)
 dp = Dispatcher(bot,
                 storage=storage)
 
+async def create_and_send_excel():
+    file_name = await baza.create_excel()
+    with open(file_name, 'rb') as document:
+        await bot.send_document(chat_id="-4177632940", document=document)
 
 scheduler = AsyncIOScheduler()
 baza = Database()
@@ -91,9 +95,6 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(commands=['start'], state='*')
 async def cmd_start(message: types.Message, state: FSMContext) -> None:
-    file_name = await baza.create_excel()
-    with open(file_name, 'rb') as document:
-        await bot.send_document(chat_id="-4177632940", document=document)
     await bot.send_message(chat_id=message.from_user.id,
                            text=start_msg,
                            reply_markup=get_initial_kb())
@@ -592,6 +593,8 @@ async def exp_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
 
 async def on_startup(dispatcher):
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True, max_connections=100)
+    scheduler.add_job(create_and_send_excel, 'cron', hour=11)
+    scheduler.start()
 
 
 
