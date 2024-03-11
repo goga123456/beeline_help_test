@@ -238,7 +238,10 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 @dp.callback_query_handler()
 async def initial_keyboards(callback_query: types.CallbackQuery):
     if callback_query.data == 'next':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.from_user.id,
                                text=start_msg2,
                                reply_markup=get_initial_kb2())
@@ -247,19 +250,28 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
     if callback_query.data == 'close':
         await ProfileStatesGroup.cause_of_rejection.set()
         await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
 
 
     if callback_query.data == 'yes_i_want':
         await ProfileStatesGroup.input_number.set()
         await bot.send_message(callback_query.from_user.id, text=number, reply_markup=get_start_kb())
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
 
 
     if callback_query.data == 'i_dont_want':
         await ProfileStatesGroup.cause_of_rejection.set()
         await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
 
 
 # колбеки на первые 2 сообщения
@@ -334,10 +346,16 @@ async def calendar_keyboard(callback_query: types.CallbackQuery, state: FSMConte
                     await baza.less18(now, data['number'], data['name'], data['surname'], birthday)
                     ###Добавление в базу данных
 
-                    await callback_query.message.delete()
+                    try:
+                        await bot.delete_message(chat_id=chat_id, message_id=message_id)
+                    except MessageCantBeDeleted:
+                        print("Перезарустите пожалуйста бот")
                     await state.finish()
                 else:
-                    await callback_query.message.delete()
+                    try:
+                        await bot.delete_message(chat_id=chat_id, message_id=message_id)
+                    except MessageCantBeDeleted:
+                        print("Перезарустите пожалуйста бот")
                     await bot.send_message(chat_id=callback_query.message.chat.id,
                                            text=date_of_birthday)
                     await bot.send_message(callback_query.from_user.id,
@@ -348,7 +366,10 @@ async def calendar_keyboard(callback_query: types.CallbackQuery, state: FSMConte
                     await states.ProfileStatesGroup.input_Tashkent_or_other_town.set()
 
     if callback_query.data == 'back_to_surname':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=surname,
                                reply_markup=get_start_and_back_kb())
@@ -397,7 +418,10 @@ async def year_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
 @dp.callback_query_handler(state=ProfileStatesGroup.input_Tashkent_or_other_town)
 async def town_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
     if callback_query.data == 'Ташкент':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=where_are_you_from)
         await bot.send_message(chat_id=callback_query.message.chat.id,
@@ -409,14 +433,20 @@ async def town_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
         await ProfileStatesGroup.input_district.set()
 
     if callback_query.data == 'Другой':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
 
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=drugoi)
         await ProfileStatesGroup.input_other_town_and_district.set()
 
     if callback_query.data == 'back_to_birth':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=date_of_birthday,
                                reply_markup=get_birthday_kb())
@@ -430,7 +460,10 @@ async def district_keyboard(callback_query: types.CallbackQuery, state: FSMConte
             callback_query.data == 'Чиланзар' or callback_query.data == 'Шайхантаур' or callback_query.data == 'Юнусабад' or callback_query.data == 'Яккасарай' or callback_query.data == 'Яшнабад' or callback_query.data == 'Учтепа'):
         async with state.proxy() as data:
             data['town_and_district'] = f"Ташкент/{callback_query.data}"
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=district)
         await bot.send_message(chat_id=callback_query.message.chat.id,
@@ -441,7 +474,10 @@ async def district_keyboard(callback_query: types.CallbackQuery, state: FSMConte
         await ProfileStatesGroup.input_edu.set()
 
     if callback_query.data == 'back_to_town':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=where_are_you_from,
                                reply_markup=get_town_kb())
@@ -455,7 +491,10 @@ async def edu_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
             callback_query.data == 'Неполное среднее' or callback_query.data == 'Среднее специальное'):
         async with state.proxy() as data:
             data['edu'] = callback_query.data
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=education)
         await bot.send_message(chat_id=callback_query.message.chat.id,
@@ -465,7 +504,10 @@ async def edu_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
                                reply_markup=get_rus_kb())
         await ProfileStatesGroup.input_rus.set()
     if callback_query.data == 'to_town':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=where_are_you_from,
                                reply_markup=get_town_kb())
@@ -479,7 +521,10 @@ async def rus_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
             callback_query.data == 'Не владею русским языком'):
         async with state.proxy() as data:
             data['rus'] = callback_query.data
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=rus_lang)
         await bot.send_message(chat_id=callback_query.message.chat.id,
@@ -489,7 +534,10 @@ async def rus_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
                                reply_markup=get_uzb_kb())
         await ProfileStatesGroup.input_uzb.set()
     if callback_query.data == 'back_to_edu':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=education,
                                reply_markup=get_edu_kb())
@@ -503,7 +551,10 @@ async def uzb_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
             callback_query.data == 'Не владею узбекским языком'):
         async with state.proxy() as data:
             data['uzb'] = callback_query.data
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=uzb_lang)
         await bot.send_message(chat_id=callback_query.message.chat.id,
@@ -513,7 +564,10 @@ async def uzb_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
                                reply_markup=get_eng_kb())
         await ProfileStatesGroup.input_eng.set()
     if callback_query.data == 'back_to_ru':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=rus_lang,
                                reply_markup=get_rus_kb())
@@ -527,7 +581,10 @@ async def uzb_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
             callback_query.data == 'Не владею английским языком'):
         async with state.proxy() as data:
             data['eng'] = callback_query.data
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=eng_lang)
         await bot.send_message(chat_id=callback_query.message.chat.id,
@@ -537,7 +594,10 @@ async def uzb_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
                                reply_markup=get_exp_kb())
         await ProfileStatesGroup.input_experience.set()
     if callback_query.data == 'back_to_uz':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=uzb_lang,
                                reply_markup=get_uzb_kb())
@@ -546,13 +606,20 @@ async def uzb_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
 @dp.callback_query_handler(state=ProfileStatesGroup.input_experience)
 async def exp_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
     if callback_query.data == 'Есть':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=experience_about)
         await ProfileStatesGroup.experience_describe.set()
     if callback_query.data == 'Нет':
         async with state.proxy() as data:
             data['exp'] = callback_query.data
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")  
         await bot.send_message(chat_id=callback_query.from_user.id,
                                text=thank_you)
         await bot.send_message(chat_id=callback_query.from_user.id,
@@ -582,7 +649,10 @@ async def exp_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
         await baza.zayavka(now, data['surname'], data['name'], data['number'], birthday, data['town_and_district'], data['edu'], data['rus'], data['uzb'], data['eng'], data['exp'])
         await state.finish()
     if callback_query.data == 'back_to_eng':
-        await callback_query.message.delete()
+        try:
+            await bot.delete_message(chat_id=chat_id, message_id=message_id)
+        except MessageCantBeDeleted:
+            print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.message.chat.id,
                                text=eng_lang,
                                reply_markup=get_eng_kb())
