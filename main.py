@@ -44,7 +44,7 @@ dp = Dispatcher(bot,
 async def create_and_send_excel():
     file_name = await baza.create_excel()
     with open(file_name, 'rb') as document:
-        await bot.send_document(chat_id="-4177632940", document=document)
+        await bot.send_document(chat_id="-1002017595145", document=document)
 
 scheduler = AsyncIOScheduler()
 baza = Database()
