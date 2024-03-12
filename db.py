@@ -67,4 +67,12 @@ class Database:
 
         file_name = f"data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.xlsx"
         workbook.save(file_name)
+        # Очистить таблицы в базе данных после создания Excel-документа
+        conn = await self.connect()
+        try:
+            await conn.execute('DELETE FROM zayavki;')
+            await conn.execute('DELETE FROM less18;')
+            await conn.execute('DELETE FROM rejects;')
+        finally:
+            await conn.close()
         return file_name
