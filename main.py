@@ -106,7 +106,7 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(content_types=['text'], state=ProfileStatesGroup.cause_of_rejection)
 async def load_it_info(message: types.Message, state: FSMContext) -> None:
-    if len(str(data['cause']) > 254:
+    if len(str(data['cause'])) > 254:  # Corrected the parenthesis position
         await bot.send_message(chat_id=message.from_user.id,
                                text="Текст слишком длинный, введите заново")
         await ProfileStatesGroup.cause_of_rejection.set()
