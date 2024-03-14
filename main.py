@@ -106,20 +106,25 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(content_types=['text'], state=ProfileStatesGroup.cause_of_rejection)
 async def load_it_info(message: types.Message, state: FSMContext) -> None:
-    async with state.proxy() as data:
-        data['cause'] = message.text
-
-        now = datetime.now()
-        response_date = now.strftime("%d.%m.%Y %H:%M:%S")
-        chat_id = message.from_user.id
-        await bot.send_message(chat_id="-1002017595145",
-                               text=f"Дата отклика: {response_date}\n\n"
-                                    f"Причина отказа {data['cause']}\n"
-                                    f"Chat_id: {chat_id}")
-        await baza.reject(now, data['cause'])
-    await bot.send_message(chat_id=message.from_user.id,
-                           text=again)
-    await state.finish()
+    if len(str(data['cause']) > 254:
+        await bot.send_message(chat_id=message.from_user.id,
+                               text="Текст слишком длинный, введите заново")
+        await ProfileStatesGroup.cause_of_rejection.set()
+    else:
+        async with state.proxy() as data:
+            data['cause'] = message.text
+            now = datetime.now()
+            response_date = now.strftime("%d.%m.%Y %H:%M:%S")
+            chat_id = message.from_user.id
+            await bot.send_message(chat_id="-1002017595145",
+                                   text=f"Дата отклика: {response_date}\n\n"
+                                        f"Причина отказа {data['cause']}\n"
+                                        f"Chat_id: {chat_id}")
+            await baza.reject(now, data['cause'])
+        await bot.send_message(chat_id=message.from_user.id,
+                               text=again)
+        await state.finish()
+    
 
 
 @dp.message_handler(content_types=['text'], state=ProfileStatesGroup.input_number)
@@ -344,7 +349,7 @@ async def calendar_keyboard(callback_query: types.CallbackQuery, state: FSMConte
                                                 f"Фамилия: {data['surname']}\n"
                                                 f"Дата рождения: {birthday}\n"
                                                 f"Chat_id: {chat_id}")
-                    await baza.less18(now, data['number'], data['name'], data['surname'], birthday)
+                    await baza.less18(now, data['surname'], data['name'], data['number'], birthday)
                     ###Добавление в базу данных
 
                     try:
