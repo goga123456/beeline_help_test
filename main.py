@@ -109,7 +109,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
     if len(message.text) > 254:  # Corrected the parenthesis position
         await bot.send_message(chat_id=message.from_user.id,
                                text="Текст слишком длинный, введите заново")
-        await ProfileStatesGroup.cause_of_rejection.set()
+        return
     else:
         async with state.proxy() as data:
             data['cause'] = message.text
@@ -144,6 +144,10 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(content_types=['text'], state=ProfileStatesGroup.input_name)
 async def load_it_info(message: types.Message, state: FSMContext) -> None:
+    if len(message.text) > 150:  # Corrected the parenthesis position
+        await bot.send_message(chat_id=message.from_user.id,
+                               text="Текст слишком длинный, введите заново")
+        return
     if not re.match(r'^[а-яА-ЯёЁ\s]+$', message.text):
         await bot.send_message(chat_id=message.from_user.id,
                                text="Используйте только кириллицу")
@@ -167,6 +171,10 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(content_types=['text'], state=ProfileStatesGroup.input_surname)
 async def load_it_info(message: types.Message, state: FSMContext) -> None:
+    if len(message.text) > 150:  # Corrected the parenthesis position
+        await bot.send_message(chat_id=message.from_user.id,
+                               text="Текст слишком длинный, введите заново")
+        return
     if not re.match(r'^[а-яА-ЯёЁ\s]+$', message.text):
         await bot.send_message(chat_id=message.from_user.id,
                                text="Используйте только кириллицу")
@@ -189,6 +197,10 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(content_types=['text'], state=ProfileStatesGroup.input_other_town_and_district)
 async def load_it_info(message: types.Message, state: FSMContext) -> None:
+    if len(message.text) > 250:  # Corrected the parenthesis position
+        await bot.send_message(chat_id=message.from_user.id,
+                               text="Текст слишком длинный, введите заново")
+        return
     async with state.proxy() as data:
         data['town_and_district'] = message.text
     if message.text == 'Назад':
@@ -204,6 +216,10 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(content_types=['text'], state=ProfileStatesGroup.experience_describe)
 async def load_it_info(message: types.Message, state: FSMContext) -> None:
+    if len(message.text) > 250:  # Corrected the parenthesis position
+        await bot.send_message(chat_id=message.from_user.id,
+                               text="Текст слишком длинный, введите заново")
+        return
     async with state.proxy() as data:
         data['exp'] = message.text
     if message.text == 'Назад':
