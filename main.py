@@ -685,7 +685,7 @@ async def exp_keyboard(callback_query: types.CallbackQuery, state: FSMContext):
 
 async def on_startup(dispatcher):
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True, max_connections=100)
-    scheduler.add_job(create_and_send_excel, 'cron', hour=11)
+    scheduler.add_job(create_and_send_excel, 'cron', hour=4)
     scheduler.start()
 
 
