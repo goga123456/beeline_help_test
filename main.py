@@ -20,7 +20,7 @@ from states import ProfileStatesGroup, AdminStatesGroup
 from aiogram.utils.exceptions import ChatNotFound
 import aiohttp
 from db import Database
-from aiogram.utils.exceptions import MessageCantBeDeleted
+from aiogram.utils.exceptions import MessageCantBeDeleted, MessageCantBeEdited
 
 storage = MemoryStorage()
 TOKEN = os.getenv('BOT_TOKEN')
@@ -262,37 +262,38 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
     if callback_query.data == 'next':
         try:
             await callback_query.message.edit_text(text=callback_query.message.text)
-        except MessageCantBeDeleted:
-            print("Перезарустите пожалуйста бот")
-        await bot.send_message(chat_id=callback_query.from_user.id,
+            await bot.send_message(chat_id=callback_query.from_user.id,
                                text=start_msg2,
                                reply_markup=get_initial_kb2())
+        except MessageCantBeEdited:
+            print("Перезарустите пожалуйста бот")
+        
 
 
     if callback_query.data == 'close':
-        await ProfileStatesGroup.cause_of_rejection.set()
-        await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
         try:
+            await ProfileStatesGroup.cause_of_rejection.set()
+            await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
             await callback_query.message.edit_text(text=callback_query.message.text)
-        except MessageCantBeDeleted:
+        except MessageCantBeEdited:
             print("Перезарустите пожалуйста бот")
 
 
     if callback_query.data == 'yes_i_want':
-        await ProfileStatesGroup.input_number.set()
-        await bot.send_message(callback_query.from_user.id, text=number, reply_markup=get_start_kb())
         try:
+            await ProfileStatesGroup.input_number.set()
+            await bot.send_message(callback_query.from_user.id, text=number, reply_markup=get_start_kb())
             await callback_query.message.edit_text(text=callback_query.message.text)
-        except MessageCantBeDeleted:
+        except MessageCantBeEdited:
             print("Перезарустите пожалуйста бот")
 
 
     if callback_query.data == 'i_dont_want':
-        await ProfileStatesGroup.cause_of_rejection.set()
-        await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
         try:
+            await ProfileStatesGroup.cause_of_rejection.set()
+            await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
             await callback_query.message.edit_text(text=callback_query.message.text)
-        except MessageCantBeDeleted:
+        except MessageCantBeEdited:
             print("Перезарустите пожалуйста бот")
 
 
