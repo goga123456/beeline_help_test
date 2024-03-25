@@ -261,7 +261,7 @@ async def load_it_info(message: types.Message, state: FSMContext) -> None:
 async def initial_keyboards(callback_query: types.CallbackQuery):
     if callback_query.data == 'next':
         try:
-            await callback_query.message.delete()
+            await callback_query.message.edit_text(text=callback_query.message.text)
         except MessageCantBeDeleted:
             print("Перезарустите пожалуйста бот")
         await bot.send_message(chat_id=callback_query.from_user.id,
@@ -273,7 +273,7 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
         await ProfileStatesGroup.cause_of_rejection.set()
         await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
         try:
-            await callback_query.message.delete()
+            await callback_query.message.edit_text(text=callback_query.message.text)
         except MessageCantBeDeleted:
             print("Перезарустите пожалуйста бот")
 
@@ -282,7 +282,7 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
         await ProfileStatesGroup.input_number.set()
         await bot.send_message(callback_query.from_user.id, text=number, reply_markup=get_start_kb())
         try:
-            await callback_query.message.delete()
+            await callback_query.message.edit_text(text=callback_query.message.text)
         except MessageCantBeDeleted:
             print("Перезарустите пожалуйста бот")
 
@@ -291,7 +291,7 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
         await ProfileStatesGroup.cause_of_rejection.set()
         await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
         try:
-            await callback_query.message.delete()
+            await callback_query.message.edit_text(text=callback_query.message.text)
         except MessageCantBeDeleted:
             print("Перезарустите пожалуйста бот")
 
