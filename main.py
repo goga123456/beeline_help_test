@@ -266,7 +266,8 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
                                text=start_msg2,
                                reply_markup=get_initial_kb2())
         except MessageCantBeEdited:
-            print("Перезарустите пожалуйста бот")
+            await bot.send_message(chat_id=callback_query.from_user.id,
+                               text="Перезапустите пожалуйста бот")
         
 
 
@@ -276,7 +277,8 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
             await callback_query.message.edit_text(text=callback_query.message.text)
         except MessageCantBeEdited:
-            print("Перезарустите пожалуйста бот")
+            await bot.send_message(chat_id=callback_query.from_user.id,
+                               text="Перезапустите пожалуйста бот")
 
 
     if callback_query.data == 'yes_i_want':
@@ -285,7 +287,8 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text=number, reply_markup=get_start_kb())
             await callback_query.message.edit_text(text=callback_query.message.text)
         except MessageCantBeEdited:
-            print("Перезарустите пожалуйста бот")
+            await bot.send_message(chat_id=callback_query.from_user.id,
+                               text="Перезапустите пожалуйста бот")
 
 
     if callback_query.data == 'i_dont_want':
@@ -294,7 +297,8 @@ async def initial_keyboards(callback_query: types.CallbackQuery):
             await bot.send_message(callback_query.from_user.id, text=cause_of_rejection)
             await callback_query.message.edit_text(text=callback_query.message.text)
         except MessageCantBeEdited:
-            print("Перезарустите пожалуйста бот")
+            await bot.send_message(chat_id=callback_query.from_user.id,
+                               text="Перезапустите пожалуйста бот")
 
 
 # колбеки на первые 2 сообщения
